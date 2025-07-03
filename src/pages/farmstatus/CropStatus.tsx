@@ -240,7 +240,20 @@ Respond with ONLY the JSON object, no additional text.`,
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10 max-w-3xl mx-auto py-8">
+      {/* Header Section */}
+      <div className="flex flex-col items-center gap-2 mb-4">
+        <div className="flex items-center gap-3">
+          <Leaf className="h-8 w-8 text-green-600 animate-bounce" />
+          <h1 className="text-3xl font-extrabold text-green-800 tracking-tight drop-shadow-lg">
+            Crop Health Analyzer
+          </h1>
+        </div>
+        <p className="text-green-700 text-sm md:text-base text-center max-w-xl">
+          Upload a photo of your crop to get instant AI-powered health analysis and actionable recommendations.
+        </p>
+      </div>
+
       {!OPENAI_API_KEY && (
         <Alert className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-sm">
           <Zap className="h-4 w-4 text-blue-600" />
@@ -287,14 +300,14 @@ Respond with ONLY the JSON object, no additional text.`,
             {selectedImage && (
               <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
                 <div className="relative w-full max-w-lg mx-auto">
-                  <div className="relative overflow-hidden rounded-xl shadow-lg">
+                  <div className="relative overflow-hidden rounded-xl shadow-lg border-4 border-green-200">
                     <img
                       src={selectedImage || "/placeholder.svg"}
                       alt="Selected crop"
-                      className="w-full h-80 object-cover"
+                      className="w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                    <Badge className="absolute top-4 right-4 bg-white/90 text-green-700 hover:bg-white">
+                    <Badge className="absolute top-4 right-4 bg-white/90 text-green-700 hover:bg-white shadow-md">
                       <Eye className="h-3 w-3 mr-1" />
                       Ready for Analysis
                     </Badge>
@@ -304,7 +317,7 @@ Respond with ONLY the JSON object, no additional text.`,
                 <Button
                   onClick={analyzeCrop}
                   disabled={isAnalyzing}
-                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl"
                 >
                   {isAnalyzing ? (
                     <>
@@ -344,9 +357,9 @@ Respond with ONLY the JSON object, no additional text.`,
               <CardTitle className="flex items-center gap-3 text-xl">
                 <div className={`p-2 rounded-lg ${analysisResult.isDamaged ? "bg-orange-100" : "bg-green-100"}`}>
                   {analysisResult.isDamaged ? (
-                    <AlertTriangle className="h-6 w-6 text-orange-600" />
+                    <AlertTriangle className="h-6 w-6 text-orange-600 animate-pulse" />
                   ) : (
-                    <CheckCircle className="h-6 w-6 text-green-600" />
+                    <CheckCircle className="h-6 w-6 text-green-600 animate-bounce" />
                   )}
                 </div>
                 Analysis Results
@@ -356,7 +369,7 @@ Respond with ONLY the JSON object, no additional text.`,
               {/* Main Status */}
               <div className="text-center py-6">
                 <div
-                  className={`text-4xl font-bold mb-3 ${analysisResult.isDamaged ? "text-orange-600" : "text-green-600"}`}
+                  className={`text-4xl font-bold mb-3 ${analysisResult.isDamaged ? "text-orange-600" : "text-green-600"} drop-shadow-md`}
                 >
                   {analysisResult.isDamaged ? "Damage Detected" : "Healthy Crop"}
                 </div>
@@ -373,9 +386,9 @@ Respond with ONLY the JSON object, no additional text.`,
                   <span className="font-bold text-2xl text-gray-800">{analysisResult.damagePercentage}%</span>
                 </div>
                 <div className="relative">
-                  <div className="w-full h-6 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="w-full h-6 bg-gray-200 rounded-full overflow-hidden shadow-inner">
                     <div
-                      className={`h-full bg-gradient-to-r ${getDamageColor(analysisResult.damagePercentage)} transition-all duration-1000 ease-out shadow-inner`}
+                      className={`h-full bg-gradient-to-r ${getDamageColor(analysisResult.damagePercentage)} transition-all duration-1000 ease-out shadow-lg`}
                       style={{ width: `${analysisResult.damagePercentage}%` }}
                     />
                   </div>
@@ -394,7 +407,7 @@ Respond with ONLY the JSON object, no additional text.`,
                     <TrendingUp className="h-4 w-4" />
                     Damage Type
                   </h4>
-                  <div className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border">
+                  <div className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border shadow-sm">
                     <p className="text-gray-800 font-medium">{analysisResult.damageType}</p>
                   </div>
                 </div>
@@ -404,7 +417,7 @@ Respond with ONLY the JSON object, no additional text.`,
                     Severity Level
                   </h4>
                   <div
-                    className={`p-4 rounded-lg border font-semibold flex items-center gap-2 ${getSeverityColor(analysisResult.severity)}`}
+                    className={`p-4 rounded-lg border font-semibold flex items-center gap-2 ${getSeverityColor(analysisResult.severity)} shadow-sm`}
                   >
                     {getSeverityIcon(analysisResult.severity)}
                     {analysisResult.severity}
@@ -416,7 +429,7 @@ Respond with ONLY the JSON object, no additional text.`,
               {analysisResult.recommendations.length > 0 && (
                 <div className="space-y-4">
                   <h4 className="font-semibold text-gray-700 text-lg flex items-center gap-2">
-                    <Leaf className="h-5 w-5" />
+                    <Leaf className="h-212 w-5"  />
                     Recommended Actions
                   </h4>
                   <div className="grid gap-3">
@@ -425,7 +438,7 @@ Respond with ONLY the JSON object, no additional text.`,
                         key={index}
                         className="flex items-start gap-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-100 hover:shadow-md transition-shadow duration-200"
                       >
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 shadow">
                           <span className="text-white text-xs font-bold">{index + 1}</span>
                         </div>
                         <span className="text-gray-700 font-medium leading-relaxed">{rec}</span>
@@ -438,6 +451,11 @@ Respond with ONLY the JSON object, no additional text.`,
           </Card>
         </div>
       )}
+
+      {/* Footer */}
+      <div className="text-center text-xs text-gray-400 pt-8">
+        &copy; {new Date().getFullYear()} Crop Health Analyzer &mdash; Powered by AI and OpenAI GPT-4o
+      </div>
     </div>
   )
 }
