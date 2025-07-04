@@ -17,8 +17,7 @@ import {
   TrendingUp,
   Shield,
   Eye,
-  FileImage,
-  Zap,
+  FileImage
 } from "lucide-react"
 
 interface AnalysisResult {
@@ -254,16 +253,7 @@ Respond with ONLY the JSON object, no additional text.`,
         </p>
       </div>
 
-      {!OPENAI_API_KEY && (
-        <Alert className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 shadow-sm">
-          <Zap className="h-4 w-4 text-blue-600" />
-          <AlertDescription className="text-blue-800">
-            <strong>Demo Mode:</strong> Add your OpenAI API key as{" "}
-            <code className="bg-blue-100 px-1 rounded">VITE_OPENAI_API_KEY</code> in your{" "}
-            <code className="bg-blue-100 px-1 rounded">.env</code> file to enable real AI analysis.
-          </AlertDescription>
-        </Alert>
-      )}
+
 
       {/* Upload Section */}
       <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-green-50">
