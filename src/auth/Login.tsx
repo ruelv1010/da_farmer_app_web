@@ -1,8 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault(); 
+
+    navigate("/dashboard"); 
+  };
+
   return (
     <div className="h-screen w-screen flex relative overflow-hidden">
       {/* Left side - Login Form */}
@@ -14,7 +23,7 @@ export default function LoginForm() {
             </h1>
           </div>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <Label htmlFor="username" className="text-gray-700 font-medium">
                 Username:

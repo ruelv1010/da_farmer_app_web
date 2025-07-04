@@ -8,6 +8,7 @@ import {
 import "./App.css";
 import CropStatus from "./pages/farmstatus/CropStatus";
 import LoginPage from "./auth/Login";
+import Dashboard from "./pages/home/page";
 
 function App() {
   const [] = useState(0);
@@ -23,6 +24,8 @@ function App() {
 
         {/* CropStatus page */}
         <Route path="/crop-status" element={<CropStatus />} />
+        {/* Dashboard page */}
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );
