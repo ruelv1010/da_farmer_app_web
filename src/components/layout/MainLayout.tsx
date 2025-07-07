@@ -20,7 +20,7 @@ export default function MainLayout({ children }: Props) {
     <QueryClientProvider client={queryClient}>
       <div className="h-screen flex flex-col">
         <Header />
-        <div className="flex flex-1 min-h-0">
+        <div className="flex flex-1 min-h-0  bg">
           <Sidebar />
           <main className="flex-1 p-6 overflow-y-auto">{content}</main>
         </div>

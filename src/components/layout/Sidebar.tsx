@@ -474,7 +474,7 @@ export default function ImprovedSidebar() {
   const renderMenuItem = (item: MenuItem, key: number) => {
     if (item.type === "list") {
       return (
-        <div key={key} className="space-y-1">
+        <div key={key} className="space-y-1 bg">
           {
             item.title && (
               <>
@@ -627,7 +627,7 @@ export default function ImprovedSidebar() {
   };
 
   return (
-    <aside className="w-64 h-full p-2 bg-sidebar border-r border-sidebar-border overflow-y-auto">
+    <aside className="w-64 h-full p-2 bg-sidebar border-r border-sidebar-border overflow-y-auto bg-">
       <nav className="flex flex-col gap-2">
         {/* Render all items in their sorted order */}
         {sortedItems.map((item, key) => renderMenuItem(item, key))}

@@ -1,15 +1,10 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import {  LogOut } from "lucide-react"
-import { NavLink, useLocation } from "react-router-dom"
+import React, { useState } from "react";
+import { LogOut } from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
 
-
-import { LogoutConfirmationDialog } from "./LogoutConfirmationDialog"
-
-
-
-
+import { LogoutConfirmationDialog } from "./LogoutConfirmationDialog";
 
 // Navigation items list
 const navItems = [
@@ -30,19 +25,23 @@ const navItems = [
     label: "Maintenance & Security",
     matchPath: "/maintenance-and-security",
   },
-]
+];
 
 // Memoized logo to prevent flickering
-const Logo = React.memo(() => <img src="/logo.png" alt="Logo" />)
+const Logo = React.memo(() => (
+  <img src="/assets/logo_da.png" className="h-20 w-20" alt="Logo" />
+));
 
 // Memoized nav menu
 const MemoizedNav = React.memo(function NavMenu() {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <nav className="flex gap-1">
       {navItems.map(({ to, label, matchPath }) => {
-        const isActive = matchPath ? location.pathname.startsWith(matchPath) : location.pathname === to
+        const isActive = matchPath
+          ? location.pathname.startsWith(matchPath)
+          : location.pathname === to;
 
         return (
           <NavLink
@@ -54,30 +53,28 @@ const MemoizedNav = React.memo(function NavMenu() {
           >
             {label}
           </NavLink>
-        )
+        );
       })}
     </nav>
-  )
-})
+  );
+});
 
 export default function Header() {
-  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false)
-
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
 
   // Logout mutation
 
-
   const handleLogoutClick = () => {
-    setShowLogoutConfirmation(true)
-  }
+    setShowLogoutConfirmation(true);
+  };
 
   const handleConfirmLogout = () => {
-    setShowLogoutConfirmation(false)
-  }
+    setShowLogoutConfirmation(false);
+  };
 
   const handleCancelLogout = () => {
-    setShowLogoutConfirmation(false)
-  }
+    setShowLogoutConfirmation(false);
+  };
 
   return (
     <>
@@ -87,8 +84,6 @@ export default function Header() {
           <MemoizedNav />
         </div>
         <div className="flex gap-6 items-center">
-        
-         
           <button
             onClick={handleLogoutClick}
             className="p-1 text-left text-sm text-red-600 hover:bg-gray-100 flex align-middle gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -105,5 +100,5 @@ export default function Header() {
         isLoading={true}
       />
     </>
-  )
+  );
 }
