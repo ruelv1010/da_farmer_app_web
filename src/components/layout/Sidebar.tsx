@@ -68,8 +68,8 @@ const menuItems: MenuItem[] = [
         order: 1,
       },
       {
-        label: "Fertilizer Subsidy",
-        path: "/validation/fertilizer-subsidy",
+        label: "Subsidy",
+        path: "/validation/subsidy",
         order: 2,
       },
     ],
