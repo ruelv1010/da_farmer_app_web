@@ -19,13 +19,11 @@ import {
   Eye,
   Edit,
   FileText,
-  Phone,
-  Mail,
-  Users,
-  BadgeIcon as IdCard,
+
+
 } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
-import CreateFarmer from "./CreateFarmerDialog";
+
 import CreateFarmerDialog from "./CreateFarmerDialog";
 
 export function FarmerTable() {
@@ -49,7 +47,7 @@ export function FarmerTable() {
     educationLevels: [],
     governmentIdTypes: [],
   });
-  const [selectedFarmer, setSelectedFarmer] = useState<Farmer | null>(null);
+  const [, setSelectedFarmer] = useState<Farmer | null>(null);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   // Fetch filter options

@@ -162,7 +162,7 @@ const mockFilterOptions: FilterOptions = {
 
 class FarmerService {
   static async getAllFarmers(
-    sortOrder = "asc",
+
     currentPage = 1,
     rowsPerPage = 10,
     searchQuery: string | null = null,

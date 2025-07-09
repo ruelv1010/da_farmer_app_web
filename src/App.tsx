@@ -12,7 +12,7 @@ import Dashboard from "./pages/home/page";
 import CashAssistant from "./pages/validation/CashAssistant";
 import FertilizerSubsidy from "./pages/validation/FertilizerSubsidy";
 import Farm from "./pages/farmers/Farm";
-import CreateFarmer from "./pages/farmers/CreateFarmerDialog";
+
 
 function App() {
   const [] = useState(0);
