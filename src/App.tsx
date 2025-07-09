@@ -9,6 +9,10 @@ import "./App.css";
 import CropStatus from "./pages/farmstatus/CropStatus";
 import LoginPage from "./auth/Login";
 import Dashboard from "./pages/home/page";
+import CashAssistant from "./pages/validation/CashAssistant";
+import FertilizerSubsidy from "./pages/validation/FertilizerSubsidy";
+import Farm from "./pages/farmers/Farm";
+import CreateFarmer from "./pages/farmers/CreateFarmerDialog";
 
 function App() {
   const [] = useState(0);
@@ -26,6 +30,13 @@ function App() {
         <Route path="/crop-status" element={<CropStatus />} />
         {/* Dashboard page */}
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/validation/cash-assistance" element={<CashAssistant />} />
+        <Route
+          path="/validation/fertilizer-subsidy"
+          element={<FertilizerSubsidy />}
+        />
+        <Route path="/farmers" element={<Farm />} />
+        
       </Routes>
     </Router>
   );
