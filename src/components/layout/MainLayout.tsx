@@ -14,15 +14,15 @@ interface Props {
 export default function MainLayout({ children }: Props) {
   const [queryClient] = useState(() => new QueryClient());
 
-  let content = children;
-
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="h-screen flex flex-col">
+      <div className="w-screen h-screen flex flex-col overflow-hidden">
         <Header />
-        <div className="flex flex-1 min-h-0  bg">
-          <Sidebar />
-          <main className="flex-1 p-6 overflow-y-auto">{content}</main>
+        <div className="flex flex-1 min-h-0">
+          <Sidebar  />
+          <main className="flex-1 overflow-y-auto overflow-x-hidden p-6 ">
+            {children}
+          </main>
         </div>
       </div>
     </QueryClientProvider>

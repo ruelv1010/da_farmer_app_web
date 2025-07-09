@@ -1,95 +1,84 @@
 "use client";
 
-import React, { useState } from "react";
-import { LogOut } from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
-
+import React, { useState, useRef, useEffect } from "react";
+import { LogOut, User } from "lucide-react";
 import { LogoutConfirmationDialog } from "./LogoutConfirmationDialog";
 
-// Navigation items list
-const navItems = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/borrower-dashboard", label: "Borrower Dashboard" },
-  {
-    to: "/lending/salary-loan-processing",
-    label: "Lending",
-    matchPath: "/lending",
-  },
-  {
-    to: "/accounting/reports/daily-check-encashment-summary",
-    label: "Accounting",
-    matchPath: "/accounting",
-  },
-  {
-    to: "/maintenance-and-security/general-setup/branch-setup",
-    label: "Maintenance & Security",
-    matchPath: "/maintenance-and-security",
-  },
-];
-
-// Memoized logo to prevent flickering
 const Logo = React.memo(() => (
-  <img src="/assets/logo_da.png" className="h-20 w-20" alt="Logo" />
+  <img src="/assets/logo_da.png" className="h-15 w-15" alt="Logo" />
 ));
 
-// Memoized nav menu
 const MemoizedNav = React.memo(function NavMenu() {
-  const location = useLocation();
-
-  return (
-    <nav className="flex gap-1">
-      {navItems.map(({ to, label, matchPath }) => {
-        const isActive = matchPath
-          ? location.pathname.startsWith(matchPath)
-          : location.pathname === to;
-
-        return (
-          <NavLink
-            key={to}
-            to={to}
-            className={`text-[var(--foreground)] hover:bg-[var(--secondary)] rounded-lg px-4 py-2.5 ${
-              isActive ? "bg-[var(--secondary)] font-semibold" : ""
-            }`}
-          >
-            {label}
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
+  return <nav className="flex gap-1">{/* Nav items here */}</nav>;
 });
 
 export default function Header() {
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
-
-  // Logout mutation
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleLogoutClick = () => {
+    setIsDropdownOpen(false);
     setShowLogoutConfirmation(true);
   };
 
   const handleConfirmLogout = () => {
     setShowLogoutConfirmation(false);
+    // perform actual logout here
   };
 
   const handleCancelLogout = () => {
     setShowLogoutConfirmation(false);
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
-      <header className="bg-white shadow py-4 px-6 flex items-center justify-between border-b border-b-[var(--border)]">
-        <div className="flex gap-8 items-center">
+      <header className="w-full bg-[#15803D] shadow py-4 px-6 flex items-center justify-between border-b border-b-[var(--border)]">
+        <div className="flex gap-3 items-center">
           <Logo />
+          <span className="text-3xl font-bold text-white">MOA LALA </span>
           <MemoizedNav />
         </div>
-        <div className="flex gap-6 items-center">
-          <button
-            onClick={handleLogoutClick}
-            className="p-1 text-left text-sm text-red-600 hover:bg-gray-100 flex align-middle gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <LogOut width={20} height={20} />
-          </button>
+
+        <div className="relative" ref={dropdownRef}>
+          <img
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKeGutL0mRPw0NfKqjb5-NdQOsno6TAtZKsYA6Lu3w2d5efiQnKJFXEY0J2L7tGHE77UuyaZ7xmLFULq4XipO5fvUnJwXztXBGfYmoHA"
+            alt="User Avatar"
+            className="w-12 h-12 rounded-full object-cover border border-gray-300 cursor-pointer"
+          />
+
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+              <button
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  // Navigate to profile page if needed
+                  alert("Go to Profile");
+                }}
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-gray-100"
+              >
+                <User className="w-4 h-4" /> Profile
+              </button>
+              <button
+                onClick={handleLogoutClick}
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+              >
+                <LogOut className="w-4 h-4" /> Logout
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
@@ -97,7 +86,7 @@ export default function Header() {
         isOpen={showLogoutConfirmation}
         onClose={handleCancelLogout}
         onConfirm={handleConfirmLogout}
-        isLoading={true}
+        isLoading={false}
       />
     </>
   );

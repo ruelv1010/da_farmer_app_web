@@ -74,13 +74,13 @@ export default function LoginForm() {
       <div className="flex-1 bg-green-700 ">{/* Empty green section */}</div>
 
       {/* Centered Logo - Positioned absolutely to overlap both sections */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-        <img
-          src="/assets/logo_da.png"
-          alt="Department of Agriculture Logo"
-          className="w-120 h-120 object-contain ml-100"
-        />
-      </div>
+   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+  <img
+    src="/assets/logo_da.png"
+    alt="Department of Agriculture Logo"
+    className="w-120 h-120 object-contain ml-100"
+  />
+</div>
     </div>
   );
 }
