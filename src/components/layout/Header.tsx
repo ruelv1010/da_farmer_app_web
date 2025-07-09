@@ -47,7 +47,7 @@ export default function Header() {
       <header className="w-full bg-[#15803D] shadow py-4 px-6 flex items-center justify-between border-b border-b-[var(--border)]">
         <div className="flex gap-3 items-center">
           <Logo />
-          <span className="text-3xl font-bold text-white">MOA LALA </span>
+          <span className="text-3xl font-bold text-white">MAO LALA </span>
           <MemoizedNav />
         </div>
 
