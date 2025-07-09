@@ -162,10 +162,11 @@ const mockFilterOptions: FilterOptions = {
 
 class FarmerService {
   static async getAllFarmers(
-
-p0: string, currentPage = 1, rowsPerPage = 10, searchQuery: string | null = null, columnSort: string | null = null, sortQuery: string | null = null, filters: FarmerFilters = {},
-  ): Promise<FarmerResponse> {
+ currentPage = 1, rowsPerPage = 10, searchQuery: string | null = null, columnSort: string | null = null, sortQuery: string | null = null, filters: FarmerFilters = {},
+  
+): Promise<FarmerResponse> {
     // Simulate API delay
+
     await new Promise((resolve) => setTimeout(resolve, 500))
 
     let filteredFarmers = [...mockFarmers]

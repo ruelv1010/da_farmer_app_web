@@ -15,11 +15,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import FarmerService from "./Services/FarmerService";
 import { DataTableV2 } from "@/components/data-table/data-table-v2";
 import { Badge } from "@/components/ui/badge";
-import {
-  Eye,
-  Edit,
-  FileText,
-} from "lucide-react";
+import { Eye, Edit, FileText } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import CreateFarmerDialog from "./CreateFarmerDialog";
 
@@ -129,15 +125,7 @@ export function FarmerTable() {
       filters,
     ],
     queryFn: () =>
-      FarmerService.getAllFarmers(
-        "asc",
-        currentPage,
-        rowsPerPage,
-        searchQuery,
-        columnSort,
-        sortQuery,
-        filters
-      ),
+      FarmerService.getAllFarmers(1, currentPage, "", searchQuery, columnSort),
     staleTime: Number.POSITIVE_INFINITY,
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
@@ -224,7 +212,7 @@ export function FarmerTable() {
         </div>
       ),
     },
-   
+
     {
       id: "farmLocation",
       header: "Farm Location",
@@ -244,7 +232,7 @@ export function FarmerTable() {
         </div>
       ),
     },
-   
+
     {
       id: "ecosystem",
       header: "Farm Type",
@@ -310,13 +298,10 @@ export function FarmerTable() {
         );
       },
     },
-
   ];
 
   // Define filters
   const filterDefinitions: FilterDefinition[] = [
-    
-
     {
       id: "ecosystem",
       label: "Farm Type",

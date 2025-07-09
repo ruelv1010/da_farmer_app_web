@@ -53,9 +53,7 @@ const menuItems: MenuItem[] = [
     value: "dashboard",
     order: 1,
     defaultOpen: true,
-    links: [
-      { label: "Dashboard", path: "/dashboard", order: 1 },
-    ],
+    links: [{ label: "Dashboard", path: "/dashboard", order: 1 }],
   },
   {
     type: "accordion" as const,
@@ -64,8 +62,16 @@ const menuItems: MenuItem[] = [
     order: 2,
     defaultOpen: false,
     links: [
-      { label: "Cash Assistance", path: "/validation/cash-assistance", order: 1 },
-      { label: "Fertilizer Subsidy", path: "/validation/fertilizer-subsidy", order: 2 },
+      {
+        label: "Cash Assistance",
+        path: "/validation/cash-assistance",
+        order: 1,
+      },
+      {
+        label: "Fertilizer Subsidy",
+        path: "/validation/fertilizer-subsidy",
+        order: 2,
+      },
     ],
   },
   {
@@ -73,9 +79,7 @@ const menuItems: MenuItem[] = [
     value: "farmers",
     order: 3,
     defaultOpen: true,
-    links: [
-      { label: "Farmers", path: "/farmers", order: 1 },
-    ],
+    links: [{ label: "Farmers", path: "/farmers", order: 1 }],
   },
   {
     type: "accordion" as const,
@@ -84,6 +88,7 @@ const menuItems: MenuItem[] = [
     order: 4,
     defaultOpen: false,
     links: [
+      { label: "Crop", path: "/crops", order: 1 },
       { label: "Crop Report", path: "/crops/crop-report", order: 1 },
     ],
   },
@@ -94,7 +99,11 @@ const menuItems: MenuItem[] = [
     order: 5,
     defaultOpen: false,
     links: [
-      { label: "Assistance Beneficiary", path: "/assistance/beneficiary", order: 1 },
+      {
+        label: "Assistance Beneficiary",
+        path: "/assistance/beneficiary",
+        order: 1,
+      },
     ],
   },
   {
@@ -102,9 +111,7 @@ const menuItems: MenuItem[] = [
     value: "users",
     order: 6,
     defaultOpen: true,
-    links: [
-      { label: "Users Management", path: "/users", order: 1 },
-    ],
+    links: [{ label: "Users Management", path: "/users", order: 1 }],
   },
 ];
 

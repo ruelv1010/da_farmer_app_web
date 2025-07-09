@@ -36,7 +36,7 @@ function App() {
           element={<FertilizerSubsidy />}
         />
         <Route path="/farmers" element={<Farm />} />
-        
+        <Route path="/crops" element={<Farm />} />
       </Routes>
     </Router>
   );
