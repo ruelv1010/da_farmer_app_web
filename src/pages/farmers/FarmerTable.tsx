@@ -19,11 +19,8 @@ import {
   Eye,
   Edit,
   FileText,
-
-
 } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
-
 import CreateFarmerDialog from "./CreateFarmerDialog";
 
 export function FarmerTable() {
