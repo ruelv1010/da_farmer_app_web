@@ -88,8 +88,8 @@ const menuItems: MenuItem[] = [
     order: 4,
     defaultOpen: false,
     links: [
-      { label: "Crop", path: "/crops", order: 1 },
-      { label: "Crop Report", path: "/crops/crop-report", order: 1 },
+      { label: "Crop List", path: "/crops-list", order: 1 },
+      { label: "Crop Report", path: "/crops-reports", order: 1 },
     ],
   },
   {

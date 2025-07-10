@@ -14,6 +14,8 @@ import FertilizerSubsidy from "./pages/validation/FertilizerSubsidy";
 import Farm from "./pages/farmers/Farm";
 import Crops from "./pages/crops/Crops";
 
+import CropsReport from "./pages/crops/CropsReport";
+
 function App() {
   const [] = useState(0);
 
@@ -33,7 +35,8 @@ function App() {
         <Route path="/validation/cash-assistance" element={<CashAssistant />} />
         <Route path="/validation/subsidy" element={<FertilizerSubsidy />} />
         <Route path="/farmers" element={<Farm />} />
-        <Route path="/crops" element={<Crops />} />
+        <Route path="/crops-list" element={<Crops />} />
+        <Route path="/crops-reports" element={<CropsReport />} />
       </Routes>
     </Router>
   );
