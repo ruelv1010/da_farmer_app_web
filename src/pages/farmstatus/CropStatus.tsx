@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -17,7 +16,7 @@ import {
   TrendingUp,
   Shield,
   Eye,
-  FileImage
+  FileImage,
 } from "lucide-react"
 
 interface AnalysisResult {
@@ -29,7 +28,7 @@ interface AnalysisResult {
   confidence: number
 }
 
-export default function CropStatus() {
+export function CropHealthAnalyzer() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
@@ -37,8 +36,8 @@ export default function CropStatus() {
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Check if OpenAI API key is available (you'll need to set this)
-  const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY || ""
+  // Use NEXT_PUBLIC_ prefix for client-side environment variables in Next.js
+  const OPENAI_API_KEY = "sk-proj-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"
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -48,7 +47,6 @@ export default function CropStatus() {
         setError("Image size must be less than 10MB")
         return
       }
-
       setSelectedFile(file)
       const reader = new FileReader()
       reader.onload = (e) => {
@@ -84,27 +82,7 @@ export default function CropStatus() {
             content: [
               {
                 type: "text",
-                text: `You are an expert agricultural AI assistant specializing in crop health analysis. 
-
-Analyze this crop image and provide a detailed assessment. You MUST respond with ONLY a valid JSON object in exactly this format:
-
-{
-  "isDamaged": true or false,
-  "damagePercentage": number between 0-100,
-  "damageType": "description of damage type or 'Healthy crop' if no damage",
-  "severity": "Low" or "Medium" or "High" or "Critical",
-  "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3"],
-  "confidence": number between 0-100
-}
-
-Consider factors like:
-- Leaf discoloration, spots, or wilting
-- Pest damage signs
-- Growth abnormalities
-- Overall plant health
-- Visible diseases or infections
-
-Respond with ONLY the JSON object, no additional text.`,
+                text: `You are an expert agricultural AI assistant specializing in crop health analysis. Analyze this crop image and provide a detailed assessment. You MUST respond with ONLY a valid JSON object in exactly this format:{  "isDamaged": true or false,  "damagePercentage": number between 0-100,  "damageType": "description of damage type or 'Healthy crop' if no damage",  "severity": "Low" or "Medium" or "High" or "Critical",  "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3"],  "confidence": number between 0-100}Consider factors like:- Leaf discoloration, spots, or wilting- Pest damage signs- Growth abnormalities- Overall plant health- Visible diseases or infectionsRespond with ONLY the JSON object, no additional text.`,
               },
               {
                 type: "image_url",
@@ -126,7 +104,6 @@ Respond with ONLY the JSON object, no additional text.`,
 
     const data = await response.json()
     const content = data.choices[0]?.message?.content
-
     if (!content) {
       throw new Error("No response from OpenAI")
     }
@@ -136,7 +113,6 @@ Respond with ONLY the JSON object, no additional text.`,
     if (!jsonMatch) {
       throw new Error("Invalid response format from AI")
     }
-
     return JSON.parse(jsonMatch[0])
   }
 
@@ -149,10 +125,8 @@ Respond with ONLY the JSON object, no additional text.`,
       "Bacterial infection",
       "Healthy crop",
     ]
-
     const isDamaged = Math.random() > 0.3
     const damagePercentage = isDamaged ? Math.floor(Math.random() * 70) + 10 : Math.floor(Math.random() * 10)
-
     return {
       isDamaged,
       damagePercentage,
@@ -172,13 +146,10 @@ Respond with ONLY the JSON object, no additional text.`,
 
   const analyzeCrop = async () => {
     if (!selectedImage || !selectedFile) return
-
     setIsAnalyzing(true)
     setError(null)
-
     try {
       let result: AnalysisResult
-
       if (OPENAI_API_KEY) {
         // Use real OpenAI API
         console.log("Using OpenAI API for analysis")
@@ -190,7 +161,6 @@ Respond with ONLY the JSON object, no additional text.`,
         await new Promise((resolve) => setTimeout(resolve, 2000)) // Simulate API delay
         result = generateMockAnalysis()
       }
-
       setAnalysisResult(result)
     } catch (err: any) {
       const errorMessage = err.message || "Failed to analyze crop. Please try again."
@@ -239,21 +209,17 @@ Respond with ONLY the JSON object, no additional text.`,
   }
 
   return (
-    <div className="space-y-10 max-w-3xl mx-auto py-8">
+    <div className="space-y-10 py-8">
       {/* Header Section */}
       <div className="flex flex-col items-center gap-2 mb-4">
         <div className="flex items-center gap-3">
           <Leaf className="h-8 w-8 text-green-600 animate-bounce" />
-          <h1 className="text-3xl font-extrabold text-green-800 tracking-tight drop-shadow-lg">
-            Crop Health Analyzer
-          </h1>
+          <h1 className="text-3xl font-extrabold text-green-800 tracking-tight drop-shadow-lg">Crop Health Analyzer</h1>
         </div>
         <p className="text-green-700 text-sm md:text-base text-center max-w-xl">
           Upload a photo of your crop to get instant AI-powered health analysis and actionable recommendations.
         </p>
       </div>
-
-
 
       {/* Upload Section */}
       <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-green-50">
@@ -284,9 +250,7 @@ Respond with ONLY the JSON object, no additional text.`,
                 </div>
               </div>
             </div>
-
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-
             {selectedImage && (
               <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-500">
                 <div className="relative w-full max-w-lg mx-auto">
@@ -303,7 +267,6 @@ Respond with ONLY the JSON object, no additional text.`,
                     </Badge>
                   </div>
                 </div>
-
                 <Button
                   onClick={analyzeCrop}
                   disabled={isAnalyzing}
@@ -419,7 +382,7 @@ Respond with ONLY the JSON object, no additional text.`,
               {analysisResult.recommendations.length > 0 && (
                 <div className="space-y-4">
                   <h4 className="font-semibold text-gray-700 text-lg flex items-center gap-2">
-                    <Leaf className="h-212 w-5"  />
+                    <Leaf className="h-5 w-5" />
                     Recommended Actions
                   </h4>
                   <div className="grid gap-3">

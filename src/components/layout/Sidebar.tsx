@@ -81,6 +81,13 @@ const menuItems: MenuItem[] = [
     defaultOpen: true,
     links: [{ label: "Farmers", path: "/farmers", order: 1 }],
   },
+    {
+    type: "list" as const,
+    value: "farmers-report",
+    order: 3,
+    defaultOpen: true,
+    links: [{ label: "Farmers Report", path: "/farmers-report", order: 1 }],
+  },
   {
     type: "accordion" as const,
     title: "Crops",

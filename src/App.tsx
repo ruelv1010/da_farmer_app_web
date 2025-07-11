@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./App.css";
-import CropStatus from "./pages/farmstatus/CropStatus";
+import { CropHealthAnalyzer } from "../src/pages/farmstatus/CropStatus"
 import LoginPage from "./auth/Login";
 import Dashboard from "./pages/home/page";
 import CashAssistant from "./pages/validation/CashAssistant";
@@ -29,7 +29,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
 
         {/* CropStatus page */}
-        <Route path="/crop-status" element={<CropStatus />} />
+        <Route path="/crop-status" element={<CropHealthAnalyzer />} />
         {/* Dashboard page */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/validation/cash-assistance" element={<CashAssistant />} />
@@ -37,6 +37,7 @@ function App() {
         <Route path="/farmers" element={<Farm />} />
         <Route path="/crops-list" element={<Crops />} />
         <Route path="/crops-reports" element={<CropsReport />} />
+            <Route path="/farmers" element={<Farm />} />
       </Routes>
     </Router>
   );

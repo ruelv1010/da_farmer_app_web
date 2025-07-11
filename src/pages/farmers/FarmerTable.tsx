@@ -6,11 +6,13 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import FarmerService from "./Services/FarmerService"
 import { DataTableV2 } from "@/components/data-table/data-table-v2"
 import { Badge } from "@/components/ui/badge"
-import { Eye, Edit, FileText, Printer } from "lucide-react"
+import { Eye, Edit, FileText, Printer, ClipboardList, FileWarningIcon, FileWarning } from "lucide-react" // Added ClipboardList icon
 import MainLayout from "@/components/layout/MainLayout"
 import CreateFarmerDialog from "./CreateFarmerDialog"
 import FarmerProfilePrint from "./FarmerProfilePrint"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
+import FarmerReportDialog from "./FarmerReportDialog" // Import the new report dialog
+import { CropDamageReportTable } from "./CropDamageReportTable" // Import the new report table
 
 export function FarmerTable() {
   const [currentPage, setCurrentPage] = useState(1)
@@ -31,10 +33,14 @@ export function FarmerTable() {
     educationLevels: [],
     governmentIdTypes: [],
   })
-  const [, setSelectedFarmer] = useState<Farmer | null>(null)
+  const [selectedFarmer, setSelectedFarmer] = useState<Farmer | null>(null) // State to hold the selected farmer
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
   const [printDialogOpen, setPrintDialogOpen] = useState(false)
   const [farmerToPrint, setFarmerToPrint] = useState<Farmer | null>(null)
+  const [reportDialogOpen, setReportDialogOpen] = useState(false) // State for the new report dialog
+  const [farmerToReport, setFarmerToReport] = useState<Farmer | null>(null) // Farmer for the report dialog
+  const [showCropDamageReportsDialog, setShowCropDamageReportsDialog] = useState(false) // State for showing the reports table
+  const [farmerForReportsTable, setFarmerForReportsTable] = useState<Farmer | null>(null) // Farmer for the reports table
 
   // Fetch filter options
   const { data: filterOptionsData } = useQuery({
@@ -76,20 +82,17 @@ export function FarmerTable() {
         [filterId]: value,
       }
     })
-
     // Update the filters for API calls with proper type conversion
     setFilters((prev) => {
       if (!value || value === "") {
         const { [filterId]: removed, ...rest } = prev
         return rest
       }
-
       // Handle boolean filters
       let processedValue: string | boolean = value
       if (filterId === "is4psBeneficiary" || filterId === "isIndigenousMember" || filterId === "isFarmerCoopMember") {
         processedValue = value === "true"
       }
-
       return {
         ...prev,
         [filterId]: processedValue,
@@ -105,7 +108,7 @@ export function FarmerTable() {
     data: farmersData,
   } = useQuery({
     queryKey: ["farmers-table", currentPage, rowsPerPage, searchQuery, columnSort, sortQuery, filters],
-    queryFn: () => FarmerService.getAllFarmers(1, currentPage, "", searchQuery, columnSort),
+    queryFn: () => FarmerService.getAllFarmers(currentPage, rowsPerPage, searchQuery, columnSort, sortQuery, filters),
     staleTime: Number.POSITIVE_INFINITY,
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
@@ -116,19 +119,26 @@ export function FarmerTable() {
   // Handle actions
   const handleView = (farmer: Farmer) => {
     console.log("View farmer:", farmer)
-    setSelectedFarmer(farmer)
-    // Add view logic here
+    setSelectedFarmer(farmer) // Set the farmer to be viewed
+    setCreateDialogOpen(true) // Open the dialog
   }
 
   const handleEdit = (farmer: Farmer) => {
     console.log("Edit farmer:", farmer)
-    setSelectedFarmer(farmer)
-    // Add edit logic here
+    setSelectedFarmer(farmer) // Set the farmer to be edited
+    setCreateDialogOpen(true) // Open the dialog
   }
 
   const handleGenerateReport = (farmer: Farmer) => {
-    console.log("Generate report for farmer:", farmer)
-    // Add report generation logic here
+    console.log("Generate new crop damage report for farmer:", farmer)
+    setFarmerToReport(farmer)
+    setReportDialogOpen(true)
+  }
+
+  const handleViewAllReports = (farmer: Farmer) => {
+    console.log("View all crop damage reports for farmer:", farmer)
+    setFarmerForReportsTable(farmer)
+    setShowCropDamageReportsDialog(true)
   }
 
   const handlePrint = (farmer: Farmer) => {
@@ -138,6 +148,7 @@ export function FarmerTable() {
 
   // Handle New button click - using window.location for navigation
   const handleNew = () => {
+    setSelectedFarmer(null) // Clear selected farmer for new creation
     setCreateDialogOpen(true)
   }
 
@@ -145,6 +156,11 @@ export function FarmerTable() {
     console.log("Farmer created successfully:", farmer)
     // Optionally refresh the table data
     // You can add a refetch here if needed
+  }
+
+  const handleReportSuccess = (report: any) => {
+    console.log("Crop damage report submitted successfully:", report)
+    // Optionally refresh the reports table data if it's open
   }
 
   // Helper function to get full name
@@ -329,29 +345,59 @@ export function FarmerTable() {
               onClick: handlePrint,
               variant: "ghost",
             },
-            {
-              label: "Report",
-              icon: <FileText className="h-4 w-4" />,
-              onClick: handleGenerateReport,
-              variant: "ghost",
-            },
+            // {
+            //   label: "Report Damage", // Changed label
+            //   icon: <FileText className="h-4 w-4" />,
+            //   onClick: handleGenerateReport,
+            //   variant: "ghost",
+            // },
+          {
+  label: "View Reports",
+  icon: <FileWarning className="h-4 w-4 text-red-600" />, 
+  onClick: handleViewAllReports,
+  variant: "ghost",
+},
           ]}
         />
-
         <CreateFarmerDialog
           open={createDialogOpen}
-          onOpenChange={setCreateDialogOpen}
+          onOpenChange={(open) => {
+            setCreateDialogOpen(open)
+            if (!open) {
+              setSelectedFarmer(null) // Clear selected farmer when dialog closes
+            }
+          }}
           onSuccess={handleCreateSuccess}
+          initialData={selectedFarmer ?? undefined} // Pass the selected farmer data here
         />
-
         <Dialog open={printDialogOpen} onOpenChange={setPrintDialogOpen}>
           <DialogContent className="max-w-6xl max-h-[90vh] overflow-auto p-0">
             {farmerToPrint && <FarmerProfilePrint farmer={farmerToPrint} onClose={() => setPrintDialogOpen(false)} />}
+          </DialogContent>
+        </Dialog>
+
+        {/* New Crop Damage Report Dialog */}
+        {farmerToReport && (
+          <FarmerReportDialog
+            open={reportDialogOpen}
+            onOpenChange={setReportDialogOpen}
+            farmer={farmerToReport}
+            onSuccess={handleReportSuccess}
+          />
+        )}
+
+        {/* New Dialog for Crop Damage Reports Table */}
+        <Dialog open={showCropDamageReportsDialog} onOpenChange={setShowCropDamageReportsDialog}>
+              <DialogContent className="!max-w-none w-[90vw] h-[75vh] flex flex-col overflow-y-auto">
+            {farmerForReportsTable && (
+              <CropDamageReportTable
+                farmerId={farmerForReportsTable.id}
+                farmerName={getFullName(farmerForReportsTable)}
+              />
+            )}
           </DialogContent>
         </Dialog>
       </>
     </MainLayout>
   )
 }
-
-export default FarmerTable
