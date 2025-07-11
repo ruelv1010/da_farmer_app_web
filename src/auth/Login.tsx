@@ -6,24 +6,42 @@ import { Label } from "@/components/ui/label";
 export default function LoginForm() {
   const navigate = useNavigate();
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault(); 
-
-    navigate("/dashboard"); 
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    navigate("/dashboard");
   };
 
   return (
-    <div className="h-screen w-screen flex relative overflow-hidden">
+    <div className="min-h-screen w-screen flex flex-col md:flex-row relative overflow-hidden">
+      {/* Mobile-only logo (placed above title) */}
+      <div className="md:hidden flex justify-center mt-6">
+        <img
+          src="/assets/logo_da.png"
+          alt="Department of Agriculture Logo"
+          className="w-24 h-24 object-contain"
+        />
+      </div>
+
       {/* Left side - Login Form */}
-      <div className="flex-2 flex items-center justify-center">
-        <div className="mr-20 w-1/2">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-8">
+      <div className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-12">
+        <div className="w-full max-w-md">
+          {/* Desktop logo overlapping */}
+          <div className="hidden md:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+            <img
+              src="/assets/logo_da.png"
+              alt="Department of Agriculture Logo"
+              className="w-48 h-48 object-contain"
+            />
+          </div>
+
+          <div className="text-center mb-6">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
               Welcome Back!
             </h1>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Username */}
             <div className="space-y-2">
               <Label htmlFor="username" className="text-gray-700 font-medium">
                 Username:
@@ -36,6 +54,7 @@ export default function LoginForm() {
               />
             </div>
 
+            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-gray-700 font-medium">
                 Password:
@@ -48,6 +67,7 @@ export default function LoginForm() {
               />
             </div>
 
+            {/* Submit button */}
             <Button
               type="submit"
               className="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-3 rounded-full transition-colors"
@@ -56,8 +76,9 @@ export default function LoginForm() {
             </Button>
           </form>
 
-          <div className="text-center">
-            <p className="text-gray-600">
+          {/* Forgot password */}
+          <div className="text-center mt-4">
+            <p className="text-gray-600 text-sm">
               Forgot Password?{" "}
               <a
                 href="/forgot-password"
@@ -70,17 +91,8 @@ export default function LoginForm() {
         </div>
       </div>
 
-      {/* Right side - Green Background */}
-      <div className="flex-1 bg-green-700 ">{/* Empty green section */}</div>
-
-      {/* Centered Logo - Positioned absolutely to overlap both sections */}
-   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
-  <img
-    src="/assets/logo_da.png"
-    alt="Department of Agriculture Logo"
-    className="w-120 h-120 object-contain ml-100"
-  />
-</div>
+      {/* Right side - Green Background (desktop only) */}
+      <div className="hidden md:flex w-1/2 bg-green-700" />
     </div>
   );
 }

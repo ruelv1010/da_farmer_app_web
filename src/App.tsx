@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./App.css";
-import { CropHealthAnalyzer } from "../src/pages/farmstatus/CropStatus"
+
 import LoginPage from "./auth/Login";
 import Dashboard from "./pages/home/page";
 import CashAssistant from "./pages/validation/CashAssistant";
@@ -15,6 +15,7 @@ import Farm from "./pages/farmers/Farm";
 import Crops from "./pages/crops/Crops";
 
 import CropsReport from "./pages/crops/CropsReport";
+import CropHealthAnalyzer from "./pages/farmstatus/CropStatus";
 
 function App() {
   const [] = useState(0);
@@ -37,7 +38,6 @@ function App() {
         <Route path="/farmers" element={<Farm />} />
         <Route path="/crops-list" element={<Crops />} />
         <Route path="/crops-reports" element={<CropsReport />} />
-            <Route path="/farmers" element={<Farm />} />
       </Routes>
     </Router>
   );

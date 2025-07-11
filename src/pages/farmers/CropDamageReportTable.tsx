@@ -12,7 +12,7 @@ import FarmerReportService from "./Services/FarmerReportService"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs" // Import Tabs components
-import { CropHealthAnalyzer } from "../farmstatus/CropStatus" // Import the new analyzer component
+import CropHealthAnalyzer from "../../pages/farmstatus/CropStatus";
 
 interface CropDamageReportTableProps {
   farmerId?: number // Optional: filter reports by farmer ID

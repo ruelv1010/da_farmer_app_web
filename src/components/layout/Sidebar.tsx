@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { useMemo, useState } from "react";
 import clsx from "clsx";
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 type LinkType = {
   label: string;
@@ -81,13 +81,7 @@ const menuItems: MenuItem[] = [
     defaultOpen: true,
     links: [{ label: "Farmers", path: "/farmers", order: 1 }],
   },
-    {
-    type: "list" as const,
-    value: "farmers-report",
-    order: 3,
-    defaultOpen: true,
-    links: [{ label: "Farmers Report", path: "/farmers-report", order: 1 }],
-  },
+
   {
     type: "accordion" as const,
     title: "Crops",
@@ -99,26 +93,20 @@ const menuItems: MenuItem[] = [
       { label: "Crop Report", path: "/crops-reports", order: 1 },
     ],
   },
+
   {
-    type: "accordion" as const,
-    title: "Assistance",
-    value: "assistance",
+    type: "list" as const,
+    value: "users",
     order: 5,
-    defaultOpen: false,
-    links: [
-      {
-        label: "Assistance Beneficiary",
-        path: "/assistance/beneficiary",
-        order: 1,
-      },
-    ],
+    defaultOpen: true,
+    links: [{ label: "Users Management", path: "/users", order: 1 }],
   },
   {
     type: "list" as const,
     value: "users",
-    order: 6,
+    order: 5,
     defaultOpen: true,
-    links: [{ label: "Users Management", path: "/users", order: 1 }],
+    links: [{ label: "Generate Reports", path: "/general-reports", order: 1 }],
   },
 ];
 
@@ -147,12 +135,7 @@ const menuConfig = {
     pathPattern: /^\/farmers-reports/,
     items: menuItems,
   },
-  insuranceReport: {
-    sectionTitle: "Insurance Report",
-    order: 5,
-    pathPattern: /^\/insurance-report/,
-    items: menuItems,
-  },
+
   users: {
     sectionTitle: "Users Management",
     order: 6,
@@ -167,7 +150,6 @@ const menuConfig = {
   },
 };
 
-
 type MenuSection = keyof typeof menuConfig;
 
 export default function ImprovedSidebar() {
@@ -176,12 +158,11 @@ export default function ImprovedSidebar() {
 
   // State to manage accordion open/close
   const [accordionValue, setAccordionValue] = useState<string>("");
-  const [parentOpenStates, setParentOpenStates] = useState<Record<string, boolean>>({});
+  const [parentOpenStates, setParentOpenStates] = useState<
+    Record<string, boolean>
+  >({});
 
-  const {
-    sortedItems,
-    defaultAccordionValue,
-  } = useMemo(() => {
+  const { sortedItems, defaultAccordionValue } = useMemo(() => {
     // Determine which section to show based on current path
     let activeSection: MenuSection = "dashboard"; // default fallback
 
@@ -216,7 +197,7 @@ export default function ImprovedSidebar() {
         initialParentStates[item.value] = item.defaultOpen;
       }
     });
-    setParentOpenStates(prev => ({ ...initialParentStates, ...prev }));
+    setParentOpenStates((prev) => ({ ...initialParentStates, ...prev }));
 
     // Find default accordion value based on current path or defaultOpen
     let defaultAccordionValue = "";
@@ -236,13 +217,14 @@ export default function ImprovedSidebar() {
         for (const child of item.children) {
           const hasActiveLink = child.links.some(
             (link) =>
-              currentPath === link.path || currentPath.startsWith(link.path + "/")
+              currentPath === link.path ||
+              currentPath.startsWith(link.path + "/")
           );
           if (hasActiveLink) {
             defaultAccordionValue = child.value;
             // Also open the parent if it's expandable
             if (item.expandable !== false) {
-              setParentOpenStates(prev => ({ ...prev, [item.value]: true }));
+              setParentOpenStates((prev) => ({ ...prev, [item.value]: true }));
             }
             break;
           }
@@ -254,7 +236,9 @@ export default function ImprovedSidebar() {
     // If no active link found, use the first defaultOpen accordion
     if (!defaultAccordionValue) {
       const defaultOpenItem = sortedItems.find(
-        (item) => (item.type === "accordion" || item.type === "parent") && item.defaultOpen
+        (item) =>
+          (item.type === "accordion" || item.type === "parent") &&
+          item.defaultOpen
       );
       defaultAccordionValue = defaultOpenItem?.value || "";
     }
@@ -271,9 +255,9 @@ export default function ImprovedSidebar() {
   }, [defaultAccordionValue]);
 
   const toggleParent = (parentValue: string) => {
-    setParentOpenStates(prev => ({
+    setParentOpenStates((prev) => ({
       ...prev,
-      [parentValue]: !prev[parentValue]
+      [parentValue]: !prev[parentValue],
     }));
   };
 
@@ -281,17 +265,15 @@ export default function ImprovedSidebar() {
     if (item.type === "list") {
       return (
         <div key={key} className="space-y-1 ">
-          {
-            item.title && (
-              <>
-                <div className="px-2 py-1">
-                  <h3 className="text-xs font-medium text-sidebar-foreground/50 uppercase tracking-wider px-1.5">
-                    {item.title}
-                  </h3>
-                </div>
-              </>
-            )
-          }
+          {item.title && (
+            <>
+              <div className="px-2 py-1">
+                <h3 className="text-xs font-medium text-sidebar-foreground/50 uppercase tracking-wider px-1.5">
+                  {item.title}
+                </h3>
+              </div>
+            </>
+          )}
           <div className="flex flex-col gap-1">
             {item.links.map((link, linkKey) => (
               <NavLink
@@ -397,10 +379,7 @@ export default function ImprovedSidebar() {
           value={accordionValue}
           onValueChange={setAccordionValue}
         >
-          <UIAccordionItem
-            value={item.value}
-            className="border-none"
-          >
+          <UIAccordionItem value={item.value} className="border-none">
             <AccordionTrigger className="px-3 py-2 rounded-md text-sm font-medium hover:underline">
               {item.title}
             </AccordionTrigger>
