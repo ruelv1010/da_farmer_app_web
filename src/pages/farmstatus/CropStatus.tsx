@@ -37,8 +37,8 @@ export function CropHealthAnalyzer() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Use NEXT_PUBLIC_ prefix for client-side environment variables in Next.js
-  const OPENAI_API_KEY = "sk-proj-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"
 
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
